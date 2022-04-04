@@ -5,6 +5,9 @@
 import os
 import time
 import json
+from datetime import timezone
+import datetime
+
 import busio
 import digitalio
 import board
@@ -25,7 +28,7 @@ chanTbg = AnalogIn(mcp, MCP.P0)
 chanCsg = AnalogIn(mcp, MCP.P1)
 chanGas = AnalogIn(mcp, MCP.P2)
 
-dChannels = {'ValTbg':chanTbg,'valCsg':chanCsg,'valGas':chanGas}
+dChannels = {'valTbg':chanTbg,'valCsg':chanCsg,'valGas':chanGas}
 
 #print('Raw ADC Value: ', chanTbg.value)
 #print('ADC Voltage: ' + str(chanTbg.voltage) + 'V')
@@ -44,9 +47,10 @@ def remap_range(value, left_min, left_max, right_min, right_max):
 
 
 def measureInputs():
-	measurments = {key:value.value for key, value in dChannels.items()}
+	measurements = {key:value.value for key, value in dChannels.items()}
+	measurements['ts']=str(datetime.datetime.now(timezone.utc).replace(tzinfo=None))
 	#return json.dumps(measurments)
-	return measurments
+	return measurements
 
 if __name__ == '__main__':
 	while True:

@@ -4,13 +4,12 @@ from mqttManager import MQTTManager
 from uuid import uuid4
 import time
 import threading
-import RPi.GPIO as GPIO
 
 MQTT_SENSOR_MEASUREMENT_TOPIC = 'RPi/Data'
 
-measurmentPeriod = 0.2 
+measurmentPeriod = 20 
 valveOnTime = 2
-valveOffTime = 45
+valveOffTime = 2
 
 #https://github.com/SmartDogHouse/SmartDogHouse-SurveillanceSystem/tree/cf14788c53f9c7a884ae9cc3e5f0839fdd18713c/src/main/python
 mqttManager = MQTTManager(
@@ -38,9 +37,6 @@ controlValve.openValveStartCycle()
 
 #This function schedules itself
 publishSensorMeasurment()
-
-
-#GPIO.add_event_detect(
 
 
 #while True:
