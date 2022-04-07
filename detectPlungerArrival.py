@@ -1,11 +1,15 @@
 from datetime import datetime
+from datetime import timezone
 import RPi.GPIO as GPIO
 
 class plungerDetector:
-	def __init__(self,pinPlungerArrival,mqttManager,topic = 'RPi/PlungerArrival'):
-		GPIO.setmode(GPIO.BCM)
+	def __init__(self,pinPlungerArrival, mqttManager, threshold = 20000, topic = 'RPi/PlungerArrivals'):
 		self.pinPlungerArrival = pinPlungerArrival
 		self.mqttManager = mqttManager
+		self.threshold = threshold
+		self.topic = topic
+	
+		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(pinPlungerArrival, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 	def pinLowTime(self,pin):
@@ -15,15 +19,15 @@ class plungerDetector:
 
 	
 		
-	def detectPlungerArrival(self,channel, threshold = 20000):
+	def detectPlungerArrival(self,channel):
 		deltat = self.pinLowTime(channel)	
-		if deltat > threshold: 
+		if deltat > self.threshold: 
 			print(f'{datetime.now()}: Plunger pin low for {deltat} microseconds')
 			msg = {'timeSpanMicroS':deltat}
-			msg['ts']=str(datetime.datetime.now(timezone.utc).replace(tzinfo=None))
+			msg['ts']=str(datetime.now(timezone.utc).replace(tzinfo=None))
 			self.mqttManager.send_msg(topic=self.topic, msg=msg)
 			
-		return deltat  > threshold
+		return deltat > self.threshold
 	
 	def beginDetectingPlungerArrivals(self):
 		GPIO.add_event_detect(self.pinPlungerArrival, GPIO.FALLING, callback=self.detectPlungerArrival)#, bouncetime=10)	
