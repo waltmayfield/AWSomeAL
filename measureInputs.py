@@ -27,7 +27,9 @@ mcp = MCP.MCP3008(spi, cs)
 chanTbg = AnalogIn(mcp, MCP.P0)
 chanCsg = AnalogIn(mcp, MCP.P1)
 chanGas = AnalogIn(mcp, MCP.P2)
+chanPA  = AnalogIn(mcp, MCP.P7) #Plunger Arrival Sensor
 
+#dChannels = {'valTbg':chanTbg,'valCsg':chanCsg,'valGas':chanGas, 'valPA':chanPA}
 dChannels = {'valTbg':chanTbg,'valCsg':chanCsg,'valGas':chanGas}
 
 #print('Raw ADC Value: ', chanTbg.value)
