@@ -10,8 +10,8 @@ import RPi.GPIO as GPIO
 MQTT_SENSOR_MEASUREMENT_TOPIC = 'RPi/Data'
 
 measurmentPeriod = 0.2 
-valveOnTime = 10
-valveOffTime = 45
+valveOnTime = 5
+valveOffTime = 30
 
 pinPlungerArrival = 21
 cvOpenPin = 25
