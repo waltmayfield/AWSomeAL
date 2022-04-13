@@ -3,11 +3,11 @@ from datetime import timezone
 import RPi.GPIO as GPIO
 
 class plungerDetector:
-	def __init__(self,pinPlungerArrival, mqttManager, threshold = 20000, topic = 'RPi/PlungerArrivals'):
+	def __init__(self,pinPlungerArrival, mqttManager, threshold = 20000, mqttTopic = 'RPi/PlungerArrivals'):
 		self.pinPlungerArrival = pinPlungerArrival
 		self.mqttManager = mqttManager
 		self.threshold = threshold
-		self.topic = topic
+		self.topic = mqttTopic
 	
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(pinPlungerArrival, GPIO.IN, pull_up_down=GPIO.PUD_UP)
