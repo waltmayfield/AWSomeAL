@@ -12,9 +12,11 @@ MQTT_SENSOR_MEASUREMENT_TOPIC = 'RPi/Test'#'RPi/Data'
 MQTT_VALVE_STATE_TOPIC = 'RPi/Test'#'RPi/ValveState'
 MQTT_PLUNGER_ARRIVAL_TOPIC = 'RPi/Test'#'RPi/PlungerArrivals'
 
-measurmentPeriod = 0.2 
-valveOnTime = 5
-valveOffTime = 30
+measurmentPeriod = 0.2 #Seconds
+valveOnTime = 5 #Seconds
+valveOffTime = 30 #Seconds
+noiseOnOff = 10 #Seconds
+
 
 pinPlungerArrival = 21
 cvOpenPin = 25
@@ -42,7 +44,7 @@ def publishSensorMeasurment():
 	mqttManager.send_msg(topic=MQTT_SENSOR_MEASUREMENT_TOPIC, msg=measureInputs())
 
 #Start opening and closing the control valve
-controlValve = controlValve(cvOpenPin,cvClosePin,valveOnTime,valveOffTime,mqttManager,MQTT_VALVE_STATE_TOPIC)
+controlValve = controlValve(cvOpenPin,cvClosePin,valveOnTime,valveOffTime,mqttManager,MQTT_VALVE_STATE_TOPIC,noiseOnOff)
 controlValve.openValveStartCycle()
 
 #Start recording and uploading plunger arrivals
