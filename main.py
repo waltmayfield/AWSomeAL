@@ -8,9 +8,9 @@ import threading
 import RPi.GPIO as GPIO
 import os
 
-MQTT_SENSOR_MEASUREMENT_TOPIC = 'RPi/Test'#'RPi/Data'
-MQTT_VALVE_STATE_TOPIC = 'RPi/Test'#'RPi/ValveState'
-MQTT_PLUNGER_ARRIVAL_TOPIC = 'RPi/Test'#'RPi/PlungerArrivals'
+MQTT_SENSOR_MEASUREMENT_TOPIC = 'RPi/Data-test'
+MQTT_VALVE_STATE_TOPIC = 'RPi/ValveState-test'
+MQTT_PLUNGER_ARRIVAL_TOPIC = 'RPi/PlungerArrivals-test'
 
 measurmentPeriod = 0.2 #Seconds
 valveOnTime = 5 #Seconds
