@@ -7,6 +7,7 @@ import time
 import json
 from datetime import timezone
 import datetime
+import random
 
 import busio
 import digitalio
@@ -53,6 +54,22 @@ def measureInputs():
 	measurements['ts']=str(datetime.datetime.now(timezone.utc).replace(tzinfo=None))
 	#return json.dumps(measurments)
 	return measurements
+
+
+def measureInputsAndDriveValve(controlValve, rawCsMinusLn, rawFlowRateEndFlow, minOnTime, minOffTime, noisePct):
+	dMeasurements = measureInputs()
+	
+	print(f'\n\nvalve open: {controlValve.valveOpen}, CsMinusLn: {rawCsMinusLn}, FlowRateEndFlow: {rawFlowRateEndFlow}, minOnTime: {minOnTime}, minOffTime: {minOffTime}, current off since state change: {controlValve.currentTimeSinceStateChange()} ')
+	
+	if not controlValve.valveOpen and dMeasurements['valCsg']>rawCsMinusLn*(1+(random.random()-0.5)*noisePct) and controlValve.currentTimeSinceStateChange() > minOffTime:
+		print('Measurement script triggered valve open')
+		controlValve.openValve()
+	elif controlValve.valveOpen and dMeasurements['valGas']<rawFlowRateEndFlow*(1+(random.random()-0.5)*noisePct) and controlValve.currentTimeSinceStateChange() > minOnTime:
+		print('Measurement script triggered valve close')
+		controlValve.closeValve()
+
+	return dMeasurements
+
 
 if __name__ == '__main__':
 	while True:
