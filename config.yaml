@@ -1,0 +1,16 @@
+---
+system:
+  certificateFilePath: "/greengrass/v2/certificates/dev-AWSomeAL-PublishesComponents.cert.pem"
+  privateKeyPath: "/greengrass/v2/certificates/dev-AWSomeAL-PublishesComponents.private.key"
+  rootCaPath: "/greengrass/v2/certificates/root-CA.crt"
+  rootpath: "/greengrass/v2"
+  thingName: "dev-AWSomeAL-PublishesComponents"
+services:
+  aws.greengrass.Nucleus:
+    componentType: "NUCLEUS"
+    version: "2.5.5"
+    configuration:
+      awsRegion: "us-east-1"
+      iotRoleAlias: "Token-Exchange-Role-Alias"
+      iotDataEndpoint: "a2upkalo7i6cik-ats.iot.us-east-1.amazonaws.com"
+      iotCredEndpoint: "c3ma7jv4hirrae.credentials.iot.us-east-1.amazonaws.com"

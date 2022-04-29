@@ -1,0 +1,16 @@
+{
+  "component": {
+    "com.example.PythonAWSomeAL-component": {
+      "author": "Walt Mayfield",
+      "version": "NEXT_PATCH",
+      "build": {
+        "build_system": "zip"
+      },
+      "publish": {
+        "bucket": "dev-awsomeal-gg-components",
+        "region": "us-east-1"
+      }
+    }
+  },
+  "gdk_version": "1.0.3"
+}
