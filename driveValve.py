@@ -9,13 +9,14 @@ from time import sleep
 #MQTT_VALVE_STATE_TOPIC = 'RPi/ValveState'
 
 class controlValve:
-	def __init__(self, openPin,closePin,onTime,offTime,mqttManager,mqttTopic,noiseOnOffPct=0.):
+	def __init__(self, openPin,closePin,onTime,offTime,mqttManager,mqttTopic,mqttControlLogicTopic,noiseOnOffPct=0.):
 		self.openPin = OutputDevice(openPin)
 		self.closePin = OutputDevice(closePin)
 		self.onTime = onTime
 		self.offTime = offTime
 		self.mqttManager = mqttManager
 		self.mqttTopic = mqttTopic
+#		self.mqttControlLogicTopic = mqttControlLogicTopic
 		self.noiseOnOffPct = noiseOnOffPct
 		
 		#Initilize these both at the initilization time
@@ -26,6 +27,9 @@ class controlValve:
 		#Close valve when initiate
 		self.closeValve()
 		self.valveOpen = False
+
+#	def setNewControlPolicy(self,msg: dict):
+#		for key,value in 
 
 	def currentTime(self):
 		dt = datetime.datetime.now(timezone.utc)

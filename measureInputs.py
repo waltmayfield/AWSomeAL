@@ -56,15 +56,20 @@ def measureInputs():
 	return measurements
 
 
-def measureInputsAndDriveValve(controlValve, rawCsMinusLn, rawFlowRateEndFlow, minOnTime, minOffTime, noisePct):
+def measureInputsAndDriveValve(controlValve, rawCsMinusLn, rawFlowRateEndFlow, minOnTime, minOffTime, maxOffTime, noisePct):
 	dMeasurements = measureInputs()
 	
-	print(f'\n\nvalve open: {controlValve.valveOpen}, CsMinusLn: {rawCsMinusLn}, FlowRateEndFlow: {rawFlowRateEndFlow}, minOnTime: {minOnTime}, minOffTime: {minOffTime}, current off since state change: {controlValve.currentTimeSinceStateChange()} ')
+	print(f'\n\nvalve open: {controlValve.valveOpen}, CsMinusLn: {rawCsMinusLn}, FlowRateEndFlow: {rawFlowRateEndFlow}, minOnTime: {minOnTime}, minOffTime: {minOffTime}, maxOffTime: {maxOffTime}, current off since state change: {controlValve.currentTimeSinceStateChange():.1f} ')
 	
-	if not controlValve.valveOpen and dMeasurements['valCsg']>rawCsMinusLn*(1+(random.random()-0.5)*noisePct) and controlValve.currentTimeSinceStateChange() > minOffTime:
+	if not controlValve.valveOpen and ( 
+		dMeasurements['valCsg']>rawCsMinusLn*(1+(random.random()-0.5)*noisePct) and 
+		controlValve.currentTimeSinceStateChange() > minOffTime 
+		) or (controlValve.currentTimeSinceStateChange() > maxOffTime):
 		print('Measurement script triggered valve open')
 		controlValve.openValve()
-	elif controlValve.valveOpen and dMeasurements['valGas']<rawFlowRateEndFlow*(1+(random.random()-0.5)*noisePct) and controlValve.currentTimeSinceStateChange() > minOnTime:
+	elif controlValve.valveOpen and (
+		dMeasurements['valGas']<rawFlowRateEndFlow*(1+(random.random()-0.5)*noisePct) and 
+		controlValve.currentTimeSinceStateChange() > minOnTime):
 		print('Measurement script triggered valve close')
 		controlValve.closeValve()
 
